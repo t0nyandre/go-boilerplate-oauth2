@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,8 +19,12 @@ func init() {
 }
 
 func main() {
+	ctx := context.Background()
 	router := chi.NewRouter()
 	logger := logger.NewLogger()
+
+	// Add to context
+	ctx = context.WithValue(ctx, "logger", logger)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, %q", "World")
