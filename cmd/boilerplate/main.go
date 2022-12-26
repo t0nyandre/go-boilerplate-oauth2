@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
+	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/database/postgres"
 	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/logger"
 )
 
@@ -22,6 +23,10 @@ func main() {
 	ctx := context.Background()
 	router := chi.NewRouter()
 	logger := logger.NewLogger()
+	_, err := postgres.NewPostgres(logger)
+	if err != nil {
+		logger.Fatalw("Failed to connect to database", "database", os.Getenv("POSTGRES_DB"), "error", err)
+	}
 
 	// Add to context
 	ctx = context.WithValue(ctx, "logger", logger)
