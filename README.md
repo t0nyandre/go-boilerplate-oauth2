@@ -23,7 +23,7 @@ A better introduction into the project
 A better overview of my current challenge and why I have chosen to endeavour into this sort of madness.
 
 ## Issue
-This repository is maintained actively, so if you face any issue please raise an issue at [GitHub](https://github.com/t0nyandre/go-boilerplate-oauth2/issues/new) or [GitLab](https://gitlab.com/t0nyandre/go-boilerplate-oauth2/-/issues/new).
+This repository is maintained actively, so if you face any issue or use the repository and want me to add a feature, please raise an issue at [GitHub](https://github.com/t0nyandre/go-boilerplate-oauth2/issues/new) or [GitLab](https://gitlab.com/t0nyandre/go-boilerplate-oauth2/-/issues/new).
 
 #### Liked the work?
 - Give the repository a star ;-)
