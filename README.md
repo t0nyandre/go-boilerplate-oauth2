@@ -1,9 +1,10 @@
 <h1 align="center">
     Placeholder for a logo
 </h1>
-<p align="center">
-    Placeholder for some badges
-</p>
+
+[![goversion]](https://gitlab.com/t0nyandre/go-boilerplate-oauth2)
+[![goreport]](https://goreportcard.com/report/github.com/t0nyandre/go-boilerplate-oauth2)
+
 <p align="center">
   This repository is created for the sole purpose of being a working boilerplate for my projects going forward. It's a REST backend created in golang that uses oauth2 for auth.
 </p>
@@ -30,3 +31,7 @@ This repository is maintained actively, so if you face any issue or use the repo
 - Consider [buying me a coffee](https://www.buymeacoffee.com/t0nyandre)!
 - Subscribe to my [Patreon](https://patreon.com/t0nyandre)
 
+
+
+[goversion]: https://img.shields.io/github/go-mod/go-version/t0nyandre/go-boilerplate-oauth2.svg
+[goreport]: https://goreportcard.com/badge/github.com/nanomsg/mangos
