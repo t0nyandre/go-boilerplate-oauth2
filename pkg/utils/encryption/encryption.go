@@ -1,4 +1,4 @@
-package utils
+package encryption
 
 import (
 	"crypto/rand"
@@ -8,7 +8,7 @@ import (
 	"vendor/golang.org/x/crypto/chacha20poly1305"
 )
 
-func NewEncryption(incoming string) ([]byte, error) {
+func Encrypt(incoming string) ([]byte, error) {
 	nonce := make([]byte, 12)
 	if _, err := rand.Read(nonce); err != nil {
 		return nil, errors.New(fmt.Sprintf("Failed to generate nonce: %s", err))

@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/utils"
+	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/utils/encryption"
 )
 
 type TokenData struct {
@@ -22,7 +22,7 @@ type TokenData struct {
 // Encrypt access token and store in cookie with expires time
 // TODO: Use ctx to get datastore to store session information
 func SetSession(ctx context.Context, w http.ResponseWriter, tokenData TokenData) error {
-	encryptedAccessToken, err := utils.NewEncryption(tokenData.Token)
+	encryptedAccessToken, err := encryption.NewEncryption(tokenData.Token)
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func GetSession(ctx context.Context, r *http.Request) (*TokenData, error) {
 		return nil, err
 	}
 
-	accessToken, err := utils.Decrypt(encryptedAccessToken)
+	accessToken, err := encryption.Decrypt(encryptedAccessToken)
 	if err != nil {
 		return nil, err
 	}
