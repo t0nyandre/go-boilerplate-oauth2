@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"vendor/golang.org/x/crypto/chacha20poly1305"
 
 	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/utils"
 )
@@ -75,4 +74,22 @@ func GetSession(ctx context.Context, r *http.Request) (*TokenData, error) {
 	tokenData.Expires = cookie.Expires
 
 	return tokenData, nil
+}
+
+// Delete session Cookie
+func DestroySession(ctx context.Context, r *http.Request) error {
+	cookie, err := r.Cookie(os.Getenv("SESSION_NAME"))
+	if err != nil {
+		return err
+	}
+
+	user, err := r.Cookie(fmt.Sprintf("%s_user", os.Getenv("SESSION_NAME")))
+	if err != nil {
+		return err
+	}
+
+	cookie.Expires = time.Now().AddDate(0, 0, -1)
+	user.Expires = time.Now().AddDate(0, 0, -1)
+
+	return nil
 }
