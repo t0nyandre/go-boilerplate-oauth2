@@ -2,14 +2,14 @@ package session
 
 import (
 	"context"
-	"crypto/rand"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"net/http"
 	"os"
 	"time"
 	"vendor/golang.org/x/crypto/chacha20poly1305"
+
+	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/utils"
 )
 
 type TokenData struct {
@@ -23,18 +23,10 @@ type TokenData struct {
 // Encrypt access token and store in cookie with expires time
 // TODO: Use ctx to get datastore to store session information
 func SetSession(ctx context.Context, w http.ResponseWriter, tokenData TokenData) error {
-	nonce := make([]byte, 12)
-	if _, err := rand.Read(nonce); err != nil {
-		return errors.New("Failed to generate nonce")
-	}
-
-	block, err := chacha20poly1305.New([]byte(os.Getenv("SESSION_SECRET")))
+	encryptedAccessToken, err := utils.NewEncryption(tokenData.Token)
 	if err != nil {
 		return err
 	}
-
-	accessToken := []byte(tokenData.Token)
-	encryptedAccessToken := block.Seal(nil, nonce, accessToken, nil)
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     os.Getenv("SESSION_NAME"),
@@ -73,20 +65,13 @@ func GetSession(ctx context.Context, r *http.Request) (*TokenData, error) {
 		return nil, err
 	}
 
-	block, err := chacha20poly1305.New([]byte(os.Getenv("SESSION_SECRET")))
-	if err != nil {
-		return nil, err
-	}
-
-	nonceSize := block.NonceSize()
-	nonce, cipherText := encryptedAccessToken[:nonceSize], encryptedAccessToken[nonceSize:]
-	decryptedAccessToken, err := block.Open(nil, nonce, cipherText, nil)
+	accessToken, err := utils.Decrypt(encryptedAccessToken)
 	if err != nil {
 		return nil, err
 	}
 
 	tokenData.User = user.Value
-	tokenData.Token = string(decryptedAccessToken)
+	tokenData.Token = accessToken
 	tokenData.Expires = cookie.Expires
 
 	return tokenData, nil
