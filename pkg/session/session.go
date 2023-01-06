@@ -17,12 +17,9 @@ type TokenData struct {
 	Expires time.Time
 }
 
-// TODO: Create a function to delete session
-
 // Encrypt access token and store in cookie with expires time
-// TODO: Use ctx to get datastore to store session information
 func SetSession(ctx context.Context, w http.ResponseWriter, tokenData TokenData) error {
-	encryptedAccessToken, err := encryption.NewEncryption(tokenData.Token)
+	encryptedAccessToken, err := encryption.Encrypt(tokenData.Token)
 	if err != nil {
 		return err
 	}
