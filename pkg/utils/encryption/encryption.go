@@ -5,7 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"vendor/golang.org/x/crypto/chacha20poly1305"
+
+	"golang.org/x/crypto/chacha20poly1305"
 )
 
 func Encrypt(incoming string) ([]byte, error) {

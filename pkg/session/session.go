@@ -1,7 +1,6 @@
 package session
 
 import (
-	"context"
 	"encoding/hex"
 	"fmt"
 	"net/http"
@@ -18,7 +17,7 @@ type TokenData struct {
 }
 
 // Encrypt access token and store in cookie with expires time
-func SetSession(ctx context.Context, w http.ResponseWriter, tokenData TokenData) error {
+func SetSession(w http.ResponseWriter, tokenData TokenData) error {
 	encryptedAccessToken, err := encryption.Encrypt(tokenData.Token)
 	if err != nil {
 		return err
@@ -44,7 +43,7 @@ func SetSession(ctx context.Context, w http.ResponseWriter, tokenData TokenData)
 }
 
 // Decrypt access token and return token data
-func GetSession(ctx context.Context, r *http.Request) (*TokenData, error) {
+func GetSession(r *http.Request) (*TokenData, error) {
 	tokenData := &TokenData{}
 	cookie, err := r.Cookie(os.Getenv("SESSION_NAME"))
 	if err != nil {
@@ -74,7 +73,7 @@ func GetSession(ctx context.Context, r *http.Request) (*TokenData, error) {
 }
 
 // Delete session Cookie
-func DestroySession(ctx context.Context, r *http.Request) error {
+func ClearSession(w http.ResponseWriter, r *http.Request) error {
 	cookie, err := r.Cookie(os.Getenv("SESSION_NAME"))
 	if err != nil {
 		return err
@@ -85,8 +84,21 @@ func DestroySession(ctx context.Context, r *http.Request) error {
 		return err
 	}
 
-	cookie.Expires = time.Now().AddDate(0, 0, -1)
-	user.Expires = time.Now().AddDate(0, 0, -1)
+	http.SetCookie(w, &http.Cookie{
+		Name:     cookie.Name,
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+	})
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     user.Name,
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+	})
 
 	return nil
 }
