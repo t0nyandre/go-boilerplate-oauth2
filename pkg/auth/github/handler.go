@@ -12,6 +12,11 @@ import (
 )
 
 func (p *Provider) Login(w http.ResponseWriter, r *http.Request) {
+	_, err := session.GetSession(r)
+	if err == nil {
+		http.Redirect(w, r, "/", http.StatusFound)
+		return
+	}
 	url := p.Config.AuthCodeURL(p.State)
 	http.Redirect(w, r, url, http.StatusFound)
 }
