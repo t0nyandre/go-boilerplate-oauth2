@@ -48,6 +48,8 @@ func (p *Provider) Callback(w http.ResponseWriter, r *http.Request) {
 		Login string `json:"login"`
 	}
 
+	fmt.Println(userInfo)
+
 	if err := json.NewDecoder(userInfo.Body).Decode(&user); err != nil {
 		http.Error(w, fmt.Sprintf("Error decoding userinfo: %v", err), http.StatusInternalServerError)
 		return
@@ -64,20 +66,9 @@ func (p *Provider) Callback(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-func (p *Provider) Logout(w http.ResponseWriter, r *http.Request) {
-	if err := session.ClearSession(w, r); err != nil {
-		http.Error(w, fmt.Sprintf("Error clearing session: %v", err), http.StatusInternalServerError)
-		return
-	}
-
-	fmt.Println("User logged out!")
-	http.Redirect(w, r, "/", http.StatusFound)
-}
-
 func (p *Provider) NewRoutes() chi.Router {
 	r := chi.NewRouter()
-	r.Get("/github/login", p.Login)
-	r.Get("/github/callback", p.Callback)
-	r.Get("/github/logout", p.Logout)
+	r.Get("/login", p.Login)
+	r.Get("/callback", p.Callback)
 	return r
 }
