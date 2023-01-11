@@ -1,6 +1,6 @@
-<h1 align="center">
-    Placeholder for a logo
-</h1>
+<div align="center">
+    <img src="images/boilerplate-logo.webp" alt="Go Boilerplate with Auth" width="350" height="350" />
+</div>
 
 [![goversion]](https://gitlab.com/t0nyandre/go-boilerplate-oauth2)
 [![goreport]](https://goreportcard.com/report/github.com/t0nyandre/go-boilerplate-oauth2)
