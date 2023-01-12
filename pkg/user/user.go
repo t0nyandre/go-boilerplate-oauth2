@@ -5,14 +5,18 @@ import (
 )
 
 type User struct {
-	ID        string    `json:"id,omtiempty"`
-	Name      string    `json:"name,omitempty"`
-	Username  string    `json:"username,omitempty"`
-	Email     string    `json:"email,omitempty"`
-	IsActive  bool      `json:"is_active,omitempty"`
-	Password  string    `json:"password,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	ID        string    `json:"id,omtiempty" db:"id"`
+	Name      string    `json:"name,omitempty" db:"name"`
+	Username  string    `json:"username,omitempty" db:"username"`
+	Email     string    `json:"email,omitempty" db:"email"`
+	IsActive  bool      `json:"is_active,omitempty" db:"is_active"`
+	Password  string    `json:"password,omitempty" db:"hashed_password"`
+	CreatedAt time.Time `json:"created_at,omitempty" db:"created_at"`
+	UpdatedAt time.Time `json:"updated_at,omitempty" db:"updated_at"`
+}
+
+func (u *User) TableName() string {
+	return "users"
 }
 
 func (u *User) IsUpdated() bool {
