@@ -21,7 +21,12 @@ A better introduction into the project
 
 ## 12 Months, 12 Projects
 
-A better overview of my current challenge and why I have chosen to endeavour into this sort of madness.
+I have chosen to make one new project each month for a year. And if I find it useful or you guys find it helpful I will continue doing it after that one year has passed as well.
+There's a few things that will also go online this first year and that's my [YouTube Channel](https://youtube.com/@t0nyandre) and I will start streaming online on both [Twitch](https://www.twitch.tv/t0nyandre) and on YouTube. Hope to see you guys there!
+
+What you can expect from the YouTube channel is 15min long clips of me building different projects from scratch with different technology stacks, but my main focus is Golang with Svelte/React using PostgreSQL as my database. When the project is finished built on my stream I will edit the clips into one big tutorial/guide movie.
+
+I am so excited for this!
 
 ## Issue
 This repository is maintained actively, so if you face any issue or use the repository and want me to add a feature, please raise an issue at [GitHub](https://github.com/t0nyandre/go-boilerplate-oauth2/issues/new) or [GitLab](https://gitlab.com/t0nyandre/go-boilerplate-oauth2/-/issues/new).
