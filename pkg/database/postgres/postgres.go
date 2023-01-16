@@ -32,6 +32,8 @@ func NewPostgres(logger *zap.SugaredLogger) (*sqlx.DB, error) {
 
 	logger.Infow(
 		"Successfully connected to database",
+		"appName", os.Getenv("APP_NAME"),
+		"user", os.Getenv("POSTGRES_USER"),
 		"database", os.Getenv("POSTGRES_DB"),
 	)
 
