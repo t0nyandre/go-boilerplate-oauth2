@@ -9,4 +9,6 @@ type AuthProvider struct {
 	RefreshToken   string    `json:"refresh_token,omitempty"`
 	Expiry         time.Time `json:"expiry,omitempty"`
 	UserID         string    `json:"user_id,omitempty"`
+	CreatedAt      time.Time `json:"created_at,omitempty"`
+	UpdatedAt      time.Time `json:"updated_at,omitempty"`
 }

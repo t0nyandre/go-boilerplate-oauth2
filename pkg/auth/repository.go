@@ -1,6 +1,10 @@
 package auth
 
-import "github.com/jmoiron/sqlx"
+import (
+	"time"
+
+	"github.com/jmoiron/sqlx"
+)
 
 type AuthRepository interface {
 	Create(auth *AuthProvider) (*AuthProvider, error)
@@ -15,6 +19,9 @@ func NewRepository(db *sqlx.DB) *Repository {
 }
 
 func (r *Repository) Create(auth *AuthProvider) (*AuthProvider, error) {
+	auth.CreatedAt = time.Now()
+	auth.UpdatedAt = time.Now()
+
 	query := `
         INSERT INTO auth (provider_name, provider_user_id, access_token, refresh_token, expiry, user_id)
         VALUES ($1, $2, $3, $4, $5, $6)
