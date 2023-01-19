@@ -15,10 +15,6 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at,omitempty" db:"updated_at"`
 }
 
-func (u *User) TableName() string {
-	return "users"
-}
-
 func (u *User) IsUpdated() bool {
 	if u.CreatedAt == u.UpdatedAt {
 		return false
