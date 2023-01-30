@@ -2,27 +2,24 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/joho/godotenv"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/database/postgres"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/logger"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/oauth2"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/oauth2/github"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/user"
+	"github.com/t0nyandre/go-rest-boilerplate/pkg/database/postgres"
+	"github.com/t0nyandre/go-rest-boilerplate/pkg/logger"
+	"github.com/t0nyandre/go-rest-boilerplate/pkg/oauth2"
+	"github.com/t0nyandre/go-rest-boilerplate/pkg/oauth2/github"
+	"github.com/t0nyandre/go-rest-boilerplate/pkg/user"
 )
 
-func init() {
-	if err := godotenv.Load("config/env/.env"); err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-}
+var config = flag.String("config", "./config/local.yml", "path to config file")
 
 func main() {
+	flag.Parse()
+
 	ctx := context.Background()
 	router := chi.NewRouter()
 	logger := logger.NewLogger()
