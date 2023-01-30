@@ -9,10 +9,11 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/auth"
-	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/auth/github"
 	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/database/postgres"
 	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/logger"
+	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/oauth2"
+	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/oauth2/github"
+	"github.com/t0nyandre/go-boilerplate-oauth2/pkg/user"
 )
 
 func init() {
@@ -25,7 +26,7 @@ func main() {
 	ctx := context.Background()
 	router := chi.NewRouter()
 	logger := logger.NewLogger()
-	_, err := postgres.NewPostgres(logger)
+	postgres, err := postgres.NewPostgres(logger)
 	if err != nil {
 		logger.Fatalw("Failed to connect to database", "database", os.Getenv("POSTGRES_DB"), "error", err)
 	}
@@ -39,9 +40,12 @@ func main() {
 
 	github := github.New(ctx, os.Getenv("OAUTH2_GITHUB_CLIENT_ID"), os.Getenv("OAUTH2_GITHUB_CLIENT_SECRET"), os.Getenv("OAUTH2_GITHUB_CALLBACK_URL"), "user")
 
-	router.Mount("/auth", auth.NewRoutes())
+	router.Mount("/auth", oauth2.NewRoutes(
+		oauth2.NewService(oauth2.NewRepository(postgres), logger), logger))
+	router.Mount("/user", user.NewRoutes(
+		user.NewService(user.NewRepository(postgres), logger), logger))
 	router.Mount("/auth/github", github.NewRoutes())
-	logger.Infow("Successfully added routes", "auth", "/auth", "routes", "/auth/github")
+	logger.Infow("Successfully added routes", "auth", "/auth", "github", "/auth/github", "user", "/user")
 
 	logger.Infow("Server successfully up and running", "host", os.Getenv("APP_HOST"), "port", os.Getenv("APP_PORT"))
 	if err := http.ListenAndServe(fmt.Sprintf("%s:%s", os.Getenv("APP_HOST"), os.Getenv("APP_PORT")), router); err != nil {
