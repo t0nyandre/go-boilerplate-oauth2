@@ -2,39 +2,39 @@ package postgres
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"github.com/t0nyandre/go-rest-boilerplate/internal/config"
 	"go.uber.org/zap"
 )
 
-func NewPostgres(logger *zap.SugaredLogger) (*sqlx.DB, error) {
+func NewPostgres(logger *zap.SugaredLogger, cfg *config.Config) (*sqlx.DB, error) {
 	db, _ := sqlx.Open("postgres",
 		fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s",
-			os.Getenv("POSTGRES_USER"),
-			os.Getenv("POSTGRES_PASSWORD"),
-			os.Getenv("POSTGRES_DB"),
-			os.Getenv("POSTGRES_SSLMODE")))
+			cfg.PostgresUser,
+			cfg.PostgresPassword,
+			cfg.PostgresDb,
+			cfg.PostgresSslMode))
 
 	if err := db.DB.Ping(); err != nil {
 		logger.Warnw(
 			"Retrying database connection in 5 seconds",
-			"appName", os.Getenv("APP_NAME"),
-			"user", os.Getenv("POSTGRES_USER"),
-			"database", os.Getenv("POSTGRES_DB"),
+			"appName", cfg.AppName,
+			"user", cfg.PostgresUser,
+			"database", cfg.PostgresDb,
 			"error", err,
 		)
 		time.Sleep(time.Duration(5) * time.Second)
-		return NewPostgres(logger)
+		return NewPostgres(logger, cfg)
 	}
 
 	logger.Infow(
 		"Successfully connected to database",
-		"appName", os.Getenv("APP_NAME"),
-		"user", os.Getenv("POSTGRES_USER"),
-		"database", os.Getenv("POSTGRES_DB"),
+		"appName", cfg.AppName,
+		"user", cfg.PostgresUser,
+		"database", cfg.PostgresDb,
 	)
 
 	return db, nil

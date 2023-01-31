@@ -38,12 +38,11 @@ type Config struct {
 }
 
 func (c *Config) Validate() error {
-	v := validate.Struct(&c)
+	v := validate.Struct(c)
 	if v.Validate() {
 		return nil
-	} else {
-		return v.Errors
 	}
+	return v.Errors
 }
 
 func Load(file string, logger *zap.SugaredLogger) (*Config, error) {
