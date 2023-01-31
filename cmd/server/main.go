@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/t0nyandre/go-rest-boilerplate/internal/config"
+	"github.com/t0nyandre/go-rest-boilerplate/internal/healthcheck"
 	"github.com/t0nyandre/go-rest-boilerplate/internal/user"
 	"github.com/t0nyandre/go-rest-boilerplate/pkg/database/postgres"
 	"github.com/t0nyandre/go-rest-boilerplate/pkg/logger"
@@ -31,9 +32,7 @@ func main() {
 	}
 
 	router := chi.NewRouter()
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %s", "World")
-	})
+	router.Mount("/healthcheck", healthcheck.RegisterHandlers(cfg))
 	router.Mount("/v1/users", user.RegisterHandlers(user.NewService(user.NewRepository(db, logger), logger), logger))
 
 	logger.Infow("Server successfully up and running", "host", cfg.AppHost, "port", cfg.AppPort)
