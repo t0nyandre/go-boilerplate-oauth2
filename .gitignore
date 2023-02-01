@@ -28,7 +28,7 @@ tags
 .env.*
 !.env.example
 config/*
-!config/example.yml
+!config/example.json
 
 # Do not commit logs
 logs/*

@@ -1,11 +1,11 @@
 package config
 
 import (
+	"encoding/json"
 	"io/ioutil"
 
 	"github.com/gookit/validate"
 	"go.uber.org/zap"
-	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -20,25 +20,25 @@ const (
 )
 
 type Config struct {
-	AppPort int    `yaml:"app_port" env:"APP_PORT" validate:"required|numeric"`
-	AppHost string `yaml:"app_host" env:"APP_HOST" validate:"required|string"`
-	AppEnv  string `yaml:"app_env" env:"APP_ENV" validate:"required|string"`
-	AppName string `yaml:"app_name" env:"APP_NAME" validate:"required|string"`
+	AppPort int    `json:"app_port" env:"APP_PORT" validate:"required|numeric"`
+	AppHost string `json:"app_host" env:"APP_HOST" validate:"required|string"`
+	AppEnv  string `json:"app_env" env:"APP_ENV" validate:"required|string"`
+	AppName string `json:"app_name" env:"APP_NAME" validate:"required|string"`
 
 	// // Will add support for later :)
-	// GithubClientId     string `yaml:"github_client_id" env:"GITHUB_CLIENT_ID"`
-	// GithubClientSecret string `yaml:"github_client_secret" env:"GITHUB_CLIENT_SECRET,secret"`
-	// GithubCallbackUrl  string `yaml:"github_callback_url" env:"GITHUB_CALLBACK_URL"`
+	// GithubClientId     string `json:"github_client_id" env:"GITHUB_CLIENT_ID"`
+	// GithubClientSecret string `json:"github_client_secret" env:"GITHUB_CLIENT_SECRET,secret"`
+	// GithubCallbackUrl  string `json:"github_callback_url" env:"GITHUB_CALLBACK_URL"`
 
-	SessionSecret string `yaml:"session_secret" env:"SESSION_SECRET,secret" validate:"required|string"`
-	SessionName   string `yaml:"session_name" env:"SESSION_NAME" validate:"required|string"`
+	SessionSecret string `json:"session_secret" env:"SESSION_SECRET,secret" validate:"required|string"`
+	SessionName   string `json:"session_name" env:"SESSION_NAME" validate:"required|string"`
 
-	PostgresUser     string `yaml:"postgres_user" env:"POSTGRES_USER" validate:"required|string"`
-	PostgresPassword string `yaml:"postgres_password" env:"POSTGRES_PASSWORD,secret" validate:"string"`
-	PostgresHost     string `yaml:"postgres_host" env:"POSTGRES_HOST" validate:"string"`
-	PostgresPort     int    `yaml:"postgres_port" env:"POSTGRES_PORT" validate:"numeric"`
-	PostgresDb       string `yaml:"postgres_db" env:"POSTGRES_DB" validate:"required|string"`
-	PostgresSslMode  string `yaml:"postgres_ssl_mode" env:"POSTGRES_SSL_MODE" validate:"string"`
+	PostgresUser     string `json:"postgres_user" env:"POSTGRES_USER" validate:"required|string"`
+	PostgresPassword string `json:"postgres_password" env:"POSTGRES_PASSWORD,secret" validate:"string"`
+	PostgresHost     string `json:"postgres_host" env:"POSTGRES_HOST" validate:"string"`
+	PostgresPort     int    `json:"postgres_port" env:"POSTGRES_PORT" validate:"numeric"`
+	PostgresDb       string `json:"postgres_db" env:"POSTGRES_DB" validate:"required|string"`
+	PostgresSslMode  string `json:"postgres_ssl_mode" env:"POSTGRES_SSL_MODE" validate:"string"`
 }
 
 func (c *Config) Validate() error {
@@ -65,7 +65,7 @@ func Load(file string, logger *zap.SugaredLogger) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = yaml.Unmarshal(bytes, &c); err != nil {
+	if err = json.Unmarshal(bytes, &c); err != nil {
 		return nil, err
 	}
 

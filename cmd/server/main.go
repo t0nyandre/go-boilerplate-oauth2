@@ -13,7 +13,7 @@ import (
 	"github.com/t0nyandre/go-rest-boilerplate/pkg/logger"
 )
 
-var appConfig = flag.String("config", "./config/local.yml", "path to config file")
+var appConfig = flag.String("config", "./config/local.json", "path to config file")
 
 func main() {
 	flag.Parse()
