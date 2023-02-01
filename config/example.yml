@@ -1,22 +1,23 @@
-app:
-  name: "Go Boilerplate OAuth2"
-  env: "development"
-  host: "localhost"
-  port: 8080
+# Application specific
+app_name: "Go Rest Boilerplate"
+app_env: "development"
+app_host: "localhost"
+app_port: 4000
 
-oauth2:
-  github:
-    client_id: 
-    client_secret:
-    callback_url:
+# Oauth2 specific
+github_client_id:
+github_client_secret: 
+github_callback_url: 
 
-session:
-  secret:
-  name:
+# Session specific
+session_secret: 
+session_name: "session"
 
-db:
-  postgres:
-    user: 
-    password: 
-    database: "goboilerplate"
-    sslmode: "disable"
+# Database specific
+postgres_user: "postgres"
+postgres_password: 
+postgres_host: "localhost"
+postgres_port: 5432
+postgres_db: "goboilerplate"
+postgres_ssl_mode: "prefer"
+
