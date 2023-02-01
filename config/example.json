@@ -1,0 +1,8 @@
+{
+    "app_name": "Go Rest Boilerplate",
+    "app_env": "development",
+    "app_port": 4000,
+    "app_host": "localhost",
+    "session_name": "session",
+    "README": "Look at the Config struct in config.go for more details on the config options"
+}
