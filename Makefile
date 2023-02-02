@@ -12,3 +12,19 @@ migrate-new:
 	@read -p "Enter the name of the new migration: " name; \
 	$(MIGRATE) create -ext sql -dir /migrations $${name// /_}
 	
+.PHONY: migrate
+migrate:
+	@echo "Running all new database migrations ..."
+	@$(MIGRATE) up
+
+.PHONY: migrate-down
+migrate-down:
+	@echo "Reverting database to the last migration ..."
+	@$(MIGRATE) down 1
+
+.PHONY: migrate-reset
+migrate-reset:
+	@echo "Resetting database ..."
+	@$(MIGRATE) drop -f
+	@echo "Running all database migrations ..."
+	@$(MIGRATE) up
