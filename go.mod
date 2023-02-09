@@ -1,4 +1,4 @@
-module github.com/t0nyandre/go-rest-boilerplate
+module github.com/t0nyandre/go-rest-template
 
 go 1.19
 
